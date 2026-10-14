@@ -81,7 +81,7 @@ Windows、macOS、Linux のいずれでも動作します。
 
 現在、Chrome ウェブストアでは公開していません。次の手順で手動インストールしてください。
 
-1. [Releases](../../releases) から最新の zip をダウンロードして展開します（`git clone` でも構いません）。
+1. [Releases](../../releases) から最新の `on-air-mask-<バージョン>.zip` をダウンロードして展開します。`on-air-mask-<バージョン>` というフォルダができます（`git clone` でも構いません）。
    - 展開したフォルダは、インストール後も削除・移動しないでください。ブラウザはこのフォルダから拡張機能を読み込み続けます。
 2. 拡張機能の管理画面を開き、フォルダを読み込みます。
    - **Chrome**：アドレスバーに `chrome://extensions` と入力し、右上の「デベロッパー モード」を ON にします。「パッケージ化されていない拡張機能を読み込む」から、`manifest.json` が入っているフォルダを選びます。
@@ -207,7 +207,7 @@ docs/DESIGN.md     設計メモ
 docs/demo/         動作確認とスクリーンショット撮影用のデモページ（架空データ）
 docs/store/        ストア申請用の説明文・画像・申請項目のメモ
 PRIVACY.md         プライバシーポリシー
-scripts/           ストア提出用 zip の作成スクリプト（build-store-zip.sh）
+scripts/           配布用 zip の作成スクリプト（ストア提出用 build-store-zip.sh、Release 用 build-release-zip.sh）
 ```
 
 ビルドは不要で、ファイルを編集して拡張機能を再読み込みすれば反映されます。内部の仕組みは [docs/DESIGN.md](docs/DESIGN.md) を参照してください。
