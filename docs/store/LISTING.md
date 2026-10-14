@@ -2,7 +2,7 @@
 
 Chrome ウェブストアと Edge アドオンへの申請で入力する内容をまとめたものです。ダッシュボードの項目名や必須かどうかは変わることがあるので、申請時の画面表示を優先してください。
 
-`TODO` と書いた箇所は、リポジトリの URL などが決まってから埋めてください。
+URL はすべて記入済みです。デモページの URL は、GitHub Pages を有効にすると使えるようになります。
 
 ## 共通
 
@@ -10,11 +10,11 @@ Chrome ウェブストアと Edge アドオンへの申請で入力する内容�
 |---|---|
 | 名前 | manifest から自動で入る（日本語「配信マスク」／英語「On-Air Mask」） |
 | 短い説明 | manifest から自動で入る（`_locales/*/messages.json` の `extDesc`。日英とも132文字以内） |
-| 詳しい説明 | [description.ja.txt](description.ja.txt) と [description.en.txt](description.en.txt) をそのまま貼る（日本語1,067文字、英語2,374文字）。末尾の投げ銭ページの TODO に URL を入れること |
+| 詳しい説明 | [description.ja.txt](description.ja.txt) と [description.en.txt](description.en.txt) をそのまま貼る（日本語1,091文字、英語2,386文字）。末尾の投げ銭ページの URL は記入済み |
 | 言語 | 既定は英語（manifest の `default_locale`）。日本語の掲載情報も追加する |
-| ホームページ | TODO: GitHub リポジトリの URL |
-| サポート | TODO: GitHub の Issues の URL |
-| プライバシーポリシー | TODO: リポジトリ内の [PRIVACY.md](../../PRIVACY.md) の URL（例: `https://github.com/<user>/on-air-mask/blob/main/PRIVACY.md`） |
+| ホームページ | https://github.com/do-gugan/on-air-mask |
+| サポート | https://github.com/do-gugan/on-air-mask/issues |
+| プライバシーポリシー | https://github.com/do-gugan/on-air-mask/blob/main/PRIVACY.md |
 | 成人向けコンテンツ | なし |
 
 ### 提出用 zip の作り方
@@ -51,7 +51,7 @@ Chrome ウェブストアと Edge アドオンへの申請で入力する内容�
 
 デモページの開き方:
 - **ファイルとして開く**：`docs/demo/index.html` をブラウザで開きます。このとき、拡張機能の詳細画面で「ファイルの URL へのアクセスを許可する」を ON にする必要があります（`file://` のページでは、既定では拡張機能が動かないため）。
-- **GitHub Pages で公開する**：リポジトリの設定で GitHub Pages を有効にすると、`https://<user>.github.io/on-air-mask/docs/demo/` で開けます。審査担当者に試してもらう URL としても使えます。
+- **GitHub Pages で公開する**：リポジトリの設定で GitHub Pages を有効にすると、`https://do-gugan.github.io/on-air-mask/docs/demo/` で開けます。審査担当者に試してもらう URL としても使えます。
 
 撮影のコツ:
 - ブラウザのウィンドウを 1280×800 前後にし、余白を付けずに画面全体を撮ります（ストアの指定は「角丸なし、余白なし」）。
@@ -156,7 +156,7 @@ Chrome ウェブストアと Edge アドオンへの申請で入力する内容�
 > This extension masks (blurs or fills) parts of web pages selected by the user. It has no login and no remote server.
 >
 > How to test:
-> 1. Open the demo page with fictional data (TODO: GitHub Pages URL of docs/demo/), or any website, and click the toolbar icon to open the side panel.
+> 1. Open the demo page with fictional data (https://do-gugan.github.io/on-air-mask/docs/demo/, available once GitHub Pages is enabled), or any website, and click the toolbar icon to open the side panel.
 > 2. Click "要素を選択" (Select element) and click a heading on the page. A list of candidate selectors appears and the page shows a live preview of the mask.
 > 3. Click "適用" (Apply). The element stays masked after scrolling and reloading.
 > 4. In "このサイトのマスク" (masks for this site), hover over an item to highlight it on the page, toggle the switch to turn it off and on, and click × to delete it.

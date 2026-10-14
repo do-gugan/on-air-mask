@@ -77,6 +77,8 @@
 
 Windows、macOS、Linux のいずれでも動作します。
 
+画面の表示言語は日本語と英語に対応しています。ブラウザの表示言語に合わせて自動で切り替わり、それ以外の言語では英語で表示されます。
+
 ## インストール（手動）
 
 現在、Chrome ウェブストアでは公開していません。次の手順で手動インストールしてください。
@@ -210,14 +212,27 @@ PRIVACY.md         プライバシーポリシー
 scripts/           配布用 zip の作成スクリプト（ストア提出用 build-store-zip.sh、Release 用 build-release-zip.sh）
 ```
 
-ビルドは不要で、ファイルを編集して拡張機能を再読み込みすれば反映されます。内部の仕組みは [docs/DESIGN.md](docs/DESIGN.md) を参照してください。
+ビルドは不要で、ファイルを編集して拡張機能を再読み込みすれば反映されます。
+
+### 翻訳を追加する
+
+表示する文言はすべて `_locales/<言語コード>/messages.json` にあります。新しい言語に対応させるには、このファイルを1つ追加するだけで、コードの変更は要りません。
+
+1. `_locales/en/messages.json` を `_locales/<言語コード>/messages.json` にコピーします。言語コードは `ko`、`zh_CN`、`pt_BR` のように Chrome の形式で書きます（地域の区切りはアンダースコア）。
+2. 各項目の `message` だけを翻訳します。キー名、`description`、`placeholders` はそのまま残し、`$N$` や `$TOTAL$` のような差し込み記号も消さないでください。`description` には、その文言が画面のどこで使われるかを書いてあります。
+3. 拡張機能を再読み込みし、ブラウザの表示言語をその言語にして確認します。
+
+翻訳していない項目は英語で表示されるので、途中までの翻訳でも画面は壊れません。翻訳のプルリクエストを歓迎します。内部の仕組みは [docs/DESIGN.md](docs/DESIGN.md) を参照してください。
 
 ## 投げ銭で応援する
 
 配信マスクは無料で、すべての機能をそのままお使いいただけます。役に立ったら、作者への投げ銭で応援していただけるとうれしいです（任意）。
 
-<!-- TODO: Stripe の支払いリンクの URL を入れる -->
-- [投げ銭で応援する](https://example.com/TODO)
+**[投げ銭で応援する](https://donate.stripe.com/3cIbJ3cpt9i25yr6ka5Rm0s)**（金額は任意。外部の決済ページ（Stripe）が開きます）
+
+<img src="docs/images/tip-qr.png" width="140" alt="投げ銭ページの QR コード">
+
+スマートフォンで読み取ると、同じ投げ銭ページが開きます。
 
 不具合の報告や機能の提案は、[Issues](../../issues) で受け付けています。
 
@@ -230,4 +245,4 @@ scripts/           配布用 zip の作成スクリプト（ストア提出用 b
 
 ## English summary
 
-**On-Air Mask** is a Chrome / Edge extension for streamers, tutorial creators and usability researchers who share their browser screen. Click any element to blur or fill it. Instead of remembering the clicked element, it turns your pick into a CSS rule: you choose among candidate selectors with live previews, match counts and stability hints. The browser then keeps applying the rule to re-rendered and lazily loaded content. On reload, masked sites stay hidden until the rules are applied. The mask persists across scrolling, in-site navigation and reloads, and also applies to rows loaded later. You can also keep part of the text and hide the rest, such as keeping only the prefecture of an address or the honorific after a name. **It does not guarantee that nothing leaks. Test thoroughly before going live, and use it at your own risk.** No data ever leaves your browser. If you find it useful, you can [leave an optional tip](https://example.com/TODO) for the author. Licensed under the [Apache License 2.0](LICENSE). The names "On-Air Mask" / "配信マスク" and the icon are not covered by the license, so please use a different name and icon for forks you distribute.
+**On-Air Mask** is a Chrome / Edge extension for streamers, tutorial creators and usability researchers who share their browser screen. Click any element to blur or fill it. Instead of remembering the clicked element, it turns your pick into a CSS rule: you choose among candidate selectors with live previews, match counts and stability hints. The browser then keeps applying the rule to re-rendered and lazily loaded content. On reload, masked sites stay hidden until the rules are applied. The mask persists across scrolling, in-site navigation and reloads, and also applies to rows loaded later. The UI is available in English and Japanese (selected automatically from the browser language). You can also keep part of the text and hide the rest, such as keeping only the prefecture of an address or the honorific after a name. **It does not guarantee that nothing leaks. Test thoroughly before going live, and use it at your own risk.** No data ever leaves your browser. If you find it useful, you can [leave an optional tip](https://donate.stripe.com/3cIbJ3cpt9i25yr6ka5Rm0s) for the author. Licensed under the [Apache License 2.0](LICENSE). The names "On-Air Mask" / "配信マスク" and the icon are not covered by the license, so please use a different name and icon for forks you distribute.

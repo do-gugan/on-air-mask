@@ -26,4 +26,4 @@ This extension cannot guarantee that nothing will ever leak. Depending on how a 
 
 ■ Support the developer
 This extension is free, and every feature works without payment. If you find it useful, you can leave an optional tip for the author. Tips are paid on an external payment page and go directly to the author.
-Tip page: TODO (URL of the Stripe payment link)
+Tip page: https://donate.stripe.com/3cIbJ3cpt9i25yr6ka5Rm0s

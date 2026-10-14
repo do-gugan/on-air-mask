@@ -32,7 +32,7 @@
 ### お問い合わせ
 本ポリシーについてのお問い合わせは、GitHub リポジトリの Issues で受け付けています。
 
-<!-- TODO: 連絡先（Issues の URL かメールアドレス）を入れる -->
+- GitHub Issues: https://github.com/do-gugan/on-air-mask/issues
 
 ### 改定
 本ポリシーを改定する場合は、このページを更新し、最終更新日を変更します。
@@ -65,7 +65,7 @@ This information is never sent to the author or any third party. It is deleted f
 The "GitHub" and "tip" links in the side panel open external websites in a new tab only when you click them. Those websites are governed by their own privacy policies.
 
 ### Contact
-For questions about this policy, please open an issue in the GitHub repository.
+For questions about this policy, please open an issue in the GitHub repository: https://github.com/do-gugan/on-air-mask/issues
 
 ### Changes
 If this policy changes, this page and its "Last updated" date will be updated.
