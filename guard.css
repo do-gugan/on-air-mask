@@ -1,0 +1,8 @@
+/*
+ * フラッシュ対策。マスクルールがあるオリジンにだけ動的登録される。
+ * content.js がルールを適用し終えて html[data-sbm-ready] を付けるまでページを透明にする。
+ * visibility ではなく opacity を使うのは、子孫が visibility:visible で上書きできないようにするため。
+ */
+html:not([data-sbm-ready]) {
+  opacity: 0 !important;
+}

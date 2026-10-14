@@ -1,0 +1,14 @@
+# 秘密鍵は絶対にコミットしない
+*.pem
+
+# OS / エディタ
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# 配布用アーカイブ
+*.zip
+
+# ビルド成果物
+dist/

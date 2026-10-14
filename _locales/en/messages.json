@@ -1,0 +1,8 @@
+{
+  "extName": {
+    "message": "On-Air Mask"
+  },
+  "extDesc": {
+    "message": "Hide private info while streaming or recording. Click any element to blur or fill it; the mask persists across scrolls and reloads."
+  }
+}

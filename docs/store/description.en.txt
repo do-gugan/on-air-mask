@@ -1,0 +1,29 @@
+Hide personal information and anything else you don't want to show while streaming, recording or sharing your browser screen. Just click the part of the page you want to hide.
+
+■ Made for
+• Live streams that walk through admin pages of online shops or business tools (hide customer names, addresses and email addresses)
+• Tutorials and how-to videos for web services (hide account names, notifications and history)
+• Usability test recordings and live observation sessions (hide participants' account details)
+• Internal demos and screen sharing in online meetings
+
+■ Highlights
+• Masks are rules, not single elements
+Your pick becomes a CSS rule placed on the page, so masks keep working on rows loaded by infinite scroll and on tables re-rendered after searching or sorting.
+• Choose the scope with a live preview
+Candidate selectors are listed for the clicked element and each of its ancestors. Each one shows how many elements it matches ("just this one" or "the whole column") and how robust it is, and you can preview it on the real page before applying.
+• Built to prevent flashes on reload
+On sites with masks, the page stays hidden until the masks are applied. Masks persist across reloads and in-site navigation.
+• Hide only part of the text
+Keep only the honorific after a name, or only the prefecture of a Japanese address, and hide the rest. If the pattern can't be matched, the whole text is hidden.
+• Per-mask appearance
+Choose blur or solid fill, and adjust the strength and color for each mask. Name your masks and toggle them on and off individually.
+
+■ Privacy
+No data ever leaves your browser. There is no analytics and no advertising. All settings are stored locally. The source code is available on GitHub.
+
+■ Please note
+This extension cannot guarantee that nothing will ever leak. Depending on how a site is built, some content may not be hidden, or may reappear when the page updates. Always test thoroughly with the actual pages and steps you will use before going live, and use it at your own risk. Browser UI such as tab titles and the address bar cannot be masked.
+
+■ Support the developer
+This extension is free, and every feature works without payment. If you find it useful, you can leave an optional tip for the author. Tips are paid on an external payment page and go directly to the author.
+Tip page: TODO (URL of the Stripe payment link)

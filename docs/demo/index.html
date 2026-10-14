@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>デモ用ショップ管理画面（架空データ）</title>
+<style>
+  :root { --line: #e5e1e3; --muted: #6b6b75; --brand: #2d5b8c; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.6 system-ui, -apple-system, "Hiragino Sans", "Yu Gothic UI", sans-serif; color: #222; background: #f4f5f7; }
+  header.site-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; background: #fff; border-bottom: 1px solid var(--line); }
+  .logo { font-weight: 800; color: var(--brand); letter-spacing: .05em; }
+  .account { display: flex; align-items: center; gap: 10px; }
+  .account .avatar { width: 30px; height: 30px; border-radius: 50%; background: #c9d6e5; }
+  .account-name { font-weight: 600; }
+  .account-email { color: var(--muted); font-size: 12px; }
+  main { max-width: 1100px; margin: 24px auto; padding: 0 24px; display: grid; grid-template-columns: 1fr 280px; gap: 24px; }
+  h1 { font-size: 18px; margin: 0 0 12px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+  .toolbar { display: flex; gap: 8px; margin-bottom: 10px; }
+  button { font: inherit; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--line); background: #fff; cursor: pointer; }
+  table.orders { width: 100%; border-collapse: collapse; }
+  .orders th, .orders td { text-align: left; padding: 9px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  .orders th { color: var(--muted); font-size: 12px; font-weight: 600; }
+  .orders td.order-address { white-space: normal; }
+  .status { font-size: 12px; padding: 1px 8px; border-radius: 10px; background: #e8f3ec; color: #1f7a45; }
+  .status.pending { background: #fff4e0; color: #9a6400; }
+  aside dl { margin: 0; display: grid; grid-template-columns: 70px 1fr; gap: 6px 8px; }
+  aside dt { color: var(--muted); }
+  aside dd { margin: 0; }
+  .note { margin-top: 24px; font-size: 12px; color: var(--muted); text-align: center; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="logo">SAMPLE SHOP 管理画面</div>
+  <div class="account">
+    <div class="avatar"></div>
+    <div>
+      <div class="account-name" data-testid="account-name">見本 花子</div>
+      <div class="account-email">hanako.mihon@example.com</div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="card">
+    <h1>注文一覧</h1>
+    <div class="toolbar">
+      <button id="sort">注文番号で並べ替え</button>
+      <button id="more">さらに読み込む</button>
+    </div>
+    <table class="orders">
+      <thead><tr><th>注文番号</th><th>日時</th><th>お名前</th><th>住所</th><th>メール</th><th>金額</th><th>状態</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </section>
+
+  <aside class="card">
+    <h1>選択中のお客様</h1>
+    <dl id="customer">
+      <dt>お名前</dt><dd class="customer-name">山田 太郎 様</dd>
+      <dt>電話</dt><dd class="customer-tel">090-0000-1234</dd>
+      <dt>メール</dt><dd class="customer-email">taro.yamada@example.com</dd>
+      <dt>住所</dt><dd class="customer-address">〒100-0001 東京都千代田区千代田0-0-0 見本ビル101</dd>
+    </dl>
+  </aside>
+</main>
+<p class="note">このページのデータはすべて架空のものです（配信マスクの動作確認・スクリーンショット撮影用）。</p>
+
+<script>
+  // すべて架空のデータ
+  const NAMES = ['山田 太郎', '佐藤 花子', '鈴木 一郎', '高橋 美咲', '田中 健', '伊藤 さくら', '渡辺 翔', '中村 結衣', '小林 大輔', '加藤 七海', '吉田 蓮', '山本 葵'];
+  const SUFFIX = ['様', '様', 'さん', '様'];
+  const ADDR = [
+    '〒100-0001 東京都千代田区千代田0-0-0', '〒530-0001 大阪府大阪市北区梅田0-0-0', '〒060-0001 北海道札幌市中央区北一条西0-0',
+    '〒810-0001 福岡県福岡市中央区天神0-0-0', '〒460-0001 愛知県名古屋市中区三の丸0-0', '〒980-0001 宮城県仙台市青葉区中江0-0-0',
+    '〒231-0001 神奈川県横浜市中区新港0-0-0', '〒600-8001 京都府京都市下京区四条通0-0', '京都市左京区0-0-0（都道府県の記載なし）',
+  ];
+  let next = 1024;
+  let rows = [];
+  function makeRow() {
+    const i = rows.length;
+    const n = NAMES[i % NAMES.length];
+    rows.push({
+      id: next++,
+      date: `2026/10/${String(1 + (i % 28)).padStart(2, '0')} ${String(9 + (i % 10)).padStart(2, '0')}:${String((i * 7) % 60).padStart(2, '0')}`,
+      name: `${n} ${SUFFIX[i % SUFFIX.length]}`,
+      addr: ADDR[i % ADDR.length],
+      mail: `user${String(i + 1).padStart(3, '0')}@example.com`,
+      price: `¥${(1200 + ((i * 1370) % 9000)).toLocaleString()}`,
+      pending: i % 4 === 1,
+    });
+  }
+  function render() {
+    // 行を毎回作り直す（再描画されてもマスクが外れないことの確認用）
+    document.getElementById('rows').innerHTML = rows.map((r) => `
+      <tr class="order-row">
+        <td class="order-id">#${r.id}</td>
+        <td class="order-date">${r.date}</td>
+        <td class="order-name">${r.name}</td>
+        <td class="order-address">${r.addr}</td>
+        <td class="order-email">${r.mail}</td>
+        <td class="order-price">${r.price}</td>
+        <td><span class="status ${r.pending ? 'pending' : ''}">${r.pending ? '発送待ち' : '発送済み'}</span></td>
+      </tr>`).join('');
+  }
+  for (let i = 0; i < 9; i++) makeRow();
+  render();
+  let asc = false;
+  document.getElementById('sort').onclick = () => {
+    asc = !asc;
+    rows.sort((a, b) => (asc ? a.id - b.id : b.id - a.id));
+    render();
+  };
+  document.getElementById('more').onclick = () => {
+    for (let i = 0; i < 5; i++) makeRow();
+    render();
+  };
+</script>
+</body>
+</html>

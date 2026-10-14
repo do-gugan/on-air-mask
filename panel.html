@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>On-Air Mask</title>
+  <link rel="stylesheet" href="panel.css">
+</head>
+<body>
+  <header>
+    <div class="site"><span class="dot" id="dot"></span><span id="origin">—</span></div>
+    <label class="switch" title="全サイトのマスクを有効／一時停止">
+      <input type="checkbox" id="enabled" checked><span class="track"></span><span class="lbl" id="enabledLbl">マスク有効</span>
+    </label>
+  </header>
+
+  <div id="unavailable" class="notice" hidden>
+    このページでは使えません。通常のWebページを開いてください（拡張を入れる前から開いていたタブは再読み込みが必要です）。
+  </div>
+
+  <main id="main">
+    <section class="start">
+      <button id="pickBtn" class="primary big">要素を選択</button>
+      <div class="sub">
+        <button id="manualBtn" class="link">セレクタを直接入力</button>
+      </div>
+    </section>
+
+    <!-- 編集枠: 新規作成も既存ルールの編集もここで行う。パラメータはすべてルールごと -->
+    <section id="editor" hidden>
+      <div class="ed-head">
+        <h2 id="edTitle">新しいマスク</h2>
+        <button id="deleteBtn" class="link danger" hidden>このマスクを削除</button>
+      </div>
+
+      <label class="field">
+        <span class="k">名前</span>
+        <input id="name" placeholder="任意（例: ヘッダーのアカウント名）" autocomplete="off">
+      </label>
+
+      <div class="block" id="candBlock">
+        <div class="k">範囲の候補 <span class="muted">↑↓ 候補 ・ ←→ 親/子</span></div>
+        <div class="levels" id="levels" role="tablist"></div>
+        <ol class="cands" id="cands" role="listbox"></ol>
+      </div>
+
+      <label class="field">
+        <span class="k">セレクタ</span>
+        <span class="sel-row">
+          <input id="selector" spellcheck="false" autocomplete="off" placeholder=".customer-email, [data-x]">
+          <span id="selCount" class="badge"></span>
+        </span>
+      </label>
+
+      <div class="params">
+        <div class="row">
+          <span class="k">対象</span>
+          <div class="seg" id="targetSeg">
+            <button data-v="element" class="on">要素全体</button>
+            <button data-v="partial" title="要素の中の文字のうち、指定した部分だけを残してマスクする">一部を残す</button>
+          </div>
+        </div>
+        <div id="keepParams" hidden>
+          <div class="row">
+            <span class="k">残す</span>
+            <select id="keepType">
+              <option value="pref">都道府県（住所の先頭）</option>
+              <option value="honorific">敬称（末尾の 様・さん・殿・御中）</option>
+              <option value="head">先頭から N 文字</option>
+              <option value="tail">末尾から N 文字</option>
+              <option value="regex">正規表現に一致する部分</option>
+            </select>
+            <span id="keepNBox" class="nbox" hidden><input type="number" id="keepN" min="1" max="99" value="1"> 文字</span>
+          </div>
+          <div class="row" id="keepPatternRow" hidden>
+            <span class="k"></span>
+            <input id="keepPattern" spellcheck="false" autocomplete="off" placeholder="例: ^.+?[市区町村]">
+          </div>
+          <p class="hint" id="keepStats"></p>
+        </div>
+
+        <div class="row">
+          <span class="k">方式</span>
+          <div class="seg" id="modeSeg">
+            <button data-v="blur" class="on">ぼかし</button>
+            <button data-v="fill">塗りつぶし</button>
+          </div>
+        </div>
+
+        <div id="blurParams">
+          <label class="range">
+            <span class="k">強さ</span>
+            <input type="range" id="blurPx" min="2" max="40" step="1">
+            <span class="val"><span id="blurVal"></span>px</span>
+          </label>
+          <label class="range" id="spreadRow" title="要素の外側へぼかしをはみ出させる量。0 で要素の矩形ぴったり。レイアウトは変わりません">
+            <span class="k">はみ出し</span>
+            <input type="range" id="spreadPx" min="0" max="48" step="2">
+            <span class="val"><span id="spreadVal"></span>px</span>
+          </label>
+          <p class="hint" id="blurHint">はみ出しを強さの2倍前後にすると、縁が自然に消えます。</p>
+        </div>
+
+        <div class="row" id="fillParams" hidden>
+          <span class="k">色</span>
+          <div class="seg" id="fillSeg">
+            <button data-v="gray" class="on">グレー</button>
+            <button data-v="parent" title="選んだ要素の親（なければさらに上）の背景色">親の背景</button>
+            <button data-v="page" title="body / html の背景色">ページ背景</button>
+            <button data-v="custom">指定色</button>
+          </div>
+          <input type="color" id="customColor" value="#000000" hidden>
+          <span class="sw big" id="fillSwatch" hidden></span>
+        </div>
+
+        <div class="row">
+          <span class="k">範囲</span>
+          <div class="seg" id="scopeSeg">
+            <button data-v="site" class="on">サイト全体</button>
+            <button data-v="path">このページのみ</button>
+          </div>
+        </div>
+        <label class="row chk"><input type="checkbox" id="persist"> サイト設定として保存（ブラウザ再起動後も残す）</label>
+      </div>
+
+      <div class="actions">
+        <button id="applyBtn" class="primary">適用</button>
+        <button id="repickBtn" title="ページ上で要素をクリックし直して候補を作り直す">選び直す</button>
+        <button id="cancelBtn">やめる (Esc)</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>このサイトのマスク <span id="ruleCount" class="muted"></span><button id="clearSite" class="link">すべてクリア</button></h2>
+      <ul class="rules" id="rules"></ul>
+      <p class="empty muted" id="rulesEmpty">まだありません</p>
+      <p class="hint" id="rulesHint" hidden>ホバーでページ上の場所を表示、クリックで編集、スイッチで個別にオン／オフ</p>
+    </section>
+  </main>
+  <footer id="footer">
+    <a id="repoLink" target="_blank" rel="noopener" hidden>GitHub</a>
+    <a id="donateLink" target="_blank" rel="noopener" hidden>投げ銭で応援する</a>
+  </footer>
+  <script src="panel.js"></script>
+</body>
+</html>
