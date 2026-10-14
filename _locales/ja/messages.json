@@ -1,8 +1,438 @@
 {
   "extName": {
-    "message": "配信マスク"
+    "message": "配信マスク",
+    "description": "Extension name (store, toolbar, extensions page)"
   },
   "extDesc": {
-    "message": "配信・収録中に、Webページ上の個人情報など見せたくない部分をクリックで選んでぼかし／塗りつぶし。スクロールやページ遷移、リロード後も維持します。"
+    "message": "配信・収録中に、Webページ上の個人情報など見せたくない部分をクリックで選んでぼかし／塗りつぶし。スクロールやページ遷移、リロード後も維持します。",
+    "description": "Short description in the store and on the extensions page (max 132 characters)"
+  },
+  "enabledTitle": {
+    "message": "全サイトのマスクを有効／一時停止",
+    "description": "Tooltip of the global on/off switch in the panel header"
+  },
+  "enabledOn": {
+    "message": "マスク有効",
+    "description": "Label next to the global switch when masks are active"
+  },
+  "enabledOff": {
+    "message": "一時停止中",
+    "description": "Label next to the global switch when masks are paused"
+  },
+  "unavailable": {
+    "message": "このページでは使えません。通常のWebページを開いてください（拡張を入れる前から開いていたタブは再読み込みが必要です）。",
+    "description": "Notice shown when the panel cannot talk to the current tab"
+  },
+  "pickStart": {
+    "message": "要素を選択",
+    "description": "Main button that starts picking an element on the page"
+  },
+  "pickActive": {
+    "message": "選択中…（ページをクリック／Esc で中止）",
+    "description": "Main button text while picking is active"
+  },
+  "manualEntry": {
+    "message": "セレクタを直接入力",
+    "description": "Link under the main button to create a mask from a CSS selector"
+  },
+  "editorNew": {
+    "message": "新しいマスク",
+    "description": "Editor heading when creating a mask"
+  },
+  "editorEdit": {
+    "message": "マスクを編集",
+    "description": "Editor heading when editing an existing mask"
+  },
+  "deleteMask": {
+    "message": "このマスクを削除",
+    "description": "Link in the editor heading to delete the mask being edited"
+  },
+  "fieldName": {
+    "message": "名前",
+    "description": "Editor field label: mask name"
+  },
+  "namePlaceholder": {
+    "message": "任意（例: ヘッダーのアカウント名）",
+    "description": "Placeholder of the name field"
+  },
+  "candidates": {
+    "message": "範囲の候補",
+    "description": "Editor section label: list of candidate selectors"
+  },
+  "candidatesKeys": {
+    "message": "↑↓ 候補 ・ ←→ 親/子",
+    "description": "Keyboard hint next to the candidates label"
+  },
+  "levelClicked": {
+    "message": "クリック要素",
+    "description": "Tab for the clicked element in the candidates section"
+  },
+  "levelParent": {
+    "message": "親 $N$",
+    "description": "Tab for the N-th ancestor in the candidates section",
+    "placeholders": {
+      "n": {
+        "content": "$1",
+        "example": "2"
+      }
+    }
+  },
+  "noCandidates": {
+    "message": "この要素には使えるセレクタがありません。親を選ぶか、セレクタ欄に直接入力してください。",
+    "description": "Shown when the selected level has no candidates"
+  },
+  "fieldSelector": {
+    "message": "セレクタ",
+    "description": "Editor field label: CSS selector"
+  },
+  "fieldTarget": {
+    "message": "対象",
+    "description": "Editor field label: whole element or keep part of the text"
+  },
+  "targetElement": {
+    "message": "要素全体",
+    "description": "Target option: mask the whole element"
+  },
+  "targetPartial": {
+    "message": "一部を残す",
+    "description": "Target option: mask the text except a part"
+  },
+  "targetPartialTitle": {
+    "message": "要素の中の文字のうち、指定した部分だけを残してマスクする",
+    "description": "Tooltip of the 'Keep part' option"
+  },
+  "fieldKeep": {
+    "message": "残す",
+    "description": "Editor field label: which part of the text to keep visible"
+  },
+  "keepPref": {
+    "message": "都道府県（住所の先頭）",
+    "description": "Keep option: prefecture at the start of a Japanese address"
+  },
+  "keepHonorific": {
+    "message": "敬称（末尾の 様・さん・殿・御中）",
+    "description": "Keep option: Japanese honorific suffix after a name"
+  },
+  "keepHead": {
+    "message": "先頭から N 文字",
+    "description": "Keep option: first N characters"
+  },
+  "keepTail": {
+    "message": "末尾から N 文字",
+    "description": "Keep option: last N characters"
+  },
+  "keepRegex": {
+    "message": "正規表現に一致する部分",
+    "description": "Keep option: first match of a regular expression"
+  },
+  "keepNUnit": {
+    "message": "文字",
+    "description": "Unit after the number input for first/last N characters"
+  },
+  "keepPatternPlaceholder": {
+    "message": "例: ^.+?[市区町村]",
+    "description": "Placeholder of the regular expression input"
+  },
+  "keepUnsupported": {
+    "message": "このブラウザでは文字単位のマスクが使えないため、要素全体をマスクします。",
+    "description": "Shown when the CSS Custom Highlight API is unavailable"
+  },
+  "regexEmpty": {
+    "message": "正規表現を入力してください",
+    "description": "Validation message for an empty regular expression"
+  },
+  "regexInvalid": {
+    "message": "正規表現が正しくありません",
+    "description": "Validation message for an invalid regular expression"
+  },
+  "regexWarn": {
+    "message": "$ERR$（このままでは全体をマスクします）",
+    "description": "Regex validation message followed by a warning",
+    "placeholders": {
+      "err": {
+        "content": "$1",
+        "example": "Invalid regular expression"
+      }
+    }
+  },
+  "keepMatched": {
+    "message": "$TOTAL$件中 $MATCHED$件で一致",
+    "description": "How many elements matched the keep rule",
+    "placeholders": {
+      "total": {
+        "content": "$1",
+        "example": "6"
+      },
+      "matched": {
+        "content": "$2",
+        "example": "5"
+      }
+    }
+  },
+  "keepMissed": {
+    "message": "・$MISS$件は判定できないため全体をマスク",
+    "description": "Appended to keepMatched when some elements did not match",
+    "placeholders": {
+      "miss": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "keepNoText": {
+    "message": "文字を含む要素がありません",
+    "description": "Shown when no matched element contains text"
+  },
+  "fieldMode": {
+    "message": "方式",
+    "description": "Editor field label: blur or fill"
+  },
+  "modeBlur": {
+    "message": "ぼかし",
+    "description": "Style option: blur"
+  },
+  "modeFill": {
+    "message": "塗りつぶし",
+    "description": "Style option: solid fill"
+  },
+  "fieldStrength": {
+    "message": "強さ",
+    "description": "Editor field label: blur radius slider"
+  },
+  "fieldSpread": {
+    "message": "はみ出し",
+    "description": "Editor field label: how far the blur extends outside the element"
+  },
+  "spreadTitle": {
+    "message": "要素の外側へぼかしをはみ出させる量。0 で要素の矩形ぴったり。レイアウトは変わりません",
+    "description": "Tooltip of the spread slider"
+  },
+  "blurHint": {
+    "message": "はみ出しを強さの2倍前後にすると、縁が自然に消えます。",
+    "description": "Hint under the blur sliders"
+  },
+  "blurHintText": {
+    "message": "文字単位のぼかしは、文字を透明にしてぼかした影だけを描く「ぼかし風」の表示です。",
+    "description": "Hint under the blur slider when 'Keep part' is selected"
+  },
+  "fieldColor": {
+    "message": "色",
+    "description": "Editor field label: fill color"
+  },
+  "fillGray": {
+    "message": "グレー",
+    "description": "Fill color option: gray"
+  },
+  "fillParent": {
+    "message": "親の背景",
+    "description": "Fill color option: background color of the parent element"
+  },
+  "fillParentTitle": {
+    "message": "選んだ要素の親（なければさらに上）の背景色",
+    "description": "Tooltip of the 'Parent bg' option"
+  },
+  "fillPage": {
+    "message": "ページ背景",
+    "description": "Fill color option: background color of the page"
+  },
+  "fillPageTitle": {
+    "message": "body / html の背景色",
+    "description": "Tooltip of the 'Page bg' option"
+  },
+  "fillCustom": {
+    "message": "指定色",
+    "description": "Fill color option: color picker"
+  },
+  "fieldScope": {
+    "message": "範囲",
+    "description": "Editor field label: whole site or this page only"
+  },
+  "scopeSite": {
+    "message": "サイト全体",
+    "description": "Scope option and list badge: whole site"
+  },
+  "scopePath": {
+    "message": "このページのみ",
+    "description": "Scope option and list badge: this page only"
+  },
+  "persist": {
+    "message": "サイト設定として保存（ブラウザ再起動後も残す）",
+    "description": "Checkbox: store the mask permanently"
+  },
+  "apply": {
+    "message": "適用",
+    "description": "Editor button: create the mask"
+  },
+  "update": {
+    "message": "更新",
+    "description": "Editor button: save changes to an existing mask"
+  },
+  "repick": {
+    "message": "選び直す",
+    "description": "Editor button: pick the element again"
+  },
+  "repickTitle": {
+    "message": "ページ上で要素をクリックし直して候補を作り直す",
+    "description": "Tooltip of the Re-select button"
+  },
+  "cancel": {
+    "message": "やめる (Esc)",
+    "description": "Editor button: discard changes"
+  },
+  "countInvalid": {
+    "message": "無効",
+    "description": "Badge: the selector is invalid"
+  },
+  "countZero": {
+    "message": "0件",
+    "description": "Badge: the selector matches nothing"
+  },
+  "countOne": {
+    "message": "この1件",
+    "description": "Badge: the selector matches exactly one element"
+  },
+  "countMany": {
+    "message": "$N$件",
+    "description": "Badge: the selector matches N elements",
+    "placeholders": {
+      "n": {
+        "content": "$1",
+        "example": "12"
+      }
+    }
+  },
+  "kindAttr": {
+    "message": "属性",
+    "description": "Candidate kind badge: attribute selector"
+  },
+  "kindContext": {
+    "message": "祖先+子孫",
+    "description": "Candidate kind badge: ancestor + descendant selector"
+  },
+  "kindPath": {
+    "message": "構造パス",
+    "description": "Candidate kind badge: nth-of-type path"
+  },
+  "stabilityHigh": {
+    "message": "安定",
+    "description": "Candidate stability badge: robust against page changes"
+  },
+  "stabilityMid": {
+    "message": "普通",
+    "description": "Candidate stability badge: average"
+  },
+  "stabilityLow": {
+    "message": "壊れやすい",
+    "description": "Candidate stability badge: likely to break"
+  },
+  "listTitle": {
+    "message": "このサイトのマスク",
+    "description": "Heading of the mask list"
+  },
+  "clearAll": {
+    "message": "すべてクリア",
+    "description": "Link to delete all masks on this site"
+  },
+  "clearConfirm": {
+    "message": "$ORIGIN$ のマスクをすべて削除します。",
+    "description": "Confirmation dialog for 'Clear all'",
+    "placeholders": {
+      "origin": {
+        "content": "$1",
+        "example": "https://example.com"
+      }
+    }
+  },
+  "listEmpty": {
+    "message": "まだありません",
+    "description": "Shown when the site has no masks"
+  },
+  "listHint": {
+    "message": "ホバーでページ上の場所を表示、クリックで編集、スイッチで個別にオン／オフ",
+    "description": "Hint under the mask list"
+  },
+  "toggleOff": {
+    "message": "クリックでこのマスクをオフ",
+    "description": "Tooltip of a mask's switch when it is on"
+  },
+  "toggleOn": {
+    "message": "クリックでこのマスクをオン",
+    "description": "Tooltip of a mask's switch when it is off"
+  },
+  "deleteTitle": {
+    "message": "削除",
+    "description": "Tooltip of the × button in the list"
+  },
+  "otherPage": {
+    "message": "別ページ",
+    "description": "Badge: the mask applies to another page of the site"
+  },
+  "saved": {
+    "message": "保存済み",
+    "description": "Badge: the mask is stored permanently"
+  },
+  "session": {
+    "message": "セッション",
+    "description": "Badge: the mask lasts until the browser is closed"
+  },
+  "summaryBlur": {
+    "message": "ぼかし $PX$px",
+    "description": "Badge summarizing a blur mask (partial)",
+    "placeholders": {
+      "px": {
+        "content": "$1",
+        "example": "12"
+      }
+    }
+  },
+  "summaryBlurSpread": {
+    "message": "ぼかし $PX$px・はみ出し $SPREAD$px",
+    "description": "Badge summarizing a blur mask",
+    "placeholders": {
+      "px": {
+        "content": "$1",
+        "example": "12"
+      },
+      "spread": {
+        "content": "$2",
+        "example": "16"
+      }
+    }
+  },
+  "keepBadgePref": {
+    "message": "都道府県を残す",
+    "description": "Badge: keeps the prefecture"
+  },
+  "keepBadgeHonorific": {
+    "message": "敬称を残す",
+    "description": "Badge: keeps the honorific"
+  },
+  "keepBadgeHead": {
+    "message": "先頭$N$文字を残す",
+    "description": "Badge: keeps the first N characters",
+    "placeholders": {
+      "n": {
+        "content": "$1",
+        "example": "2"
+      }
+    }
+  },
+  "keepBadgeTail": {
+    "message": "末尾$N$文字を残す",
+    "description": "Badge: keeps the last N characters",
+    "placeholders": {
+      "n": {
+        "content": "$1",
+        "example": "4"
+      }
+    }
+  },
+  "keepBadgeRegex": {
+    "message": "正規表現で残す",
+    "description": "Badge: keeps the regex match"
+  },
+  "footerDonate": {
+    "message": "投げ銭で応援する",
+    "description": "Footer link to the tip page"
   }
 }

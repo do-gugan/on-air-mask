@@ -21,20 +21,36 @@ const DEFAULT_DRAFT = {
   keepPattern: '',
 };
 const KEEP_FIELDS = ['target', 'keepType', 'keepN', 'keepPattern'];
+// ===================================================================
+// 多言語化
+// 文言は _locales/<言語>/messages.json にあり、ブラウザの表示言語で自動的に選ばれる。
+// 翻訳がない言語・キーは manifest の default_locale（en）にフォールバックする。
+// ===================================================================
+function t(key, subs) {
+  const s = chrome.i18n.getMessage(key, subs === undefined ? undefined : [].concat(subs).map(String));
+  return s || key;
+}
+function localize(root = document) {
+  for (const el of root.querySelectorAll('[data-i18n]')) el.textContent = t(el.dataset.i18n);
+  for (const el of root.querySelectorAll('[data-i18n-title]')) el.title = t(el.dataset.i18nTitle);
+  for (const el of root.querySelectorAll('[data-i18n-placeholder]')) el.placeholder = t(el.dataset.i18nPlaceholder);
+  document.documentElement.lang = chrome.i18n.getUILanguage?.() || document.documentElement.lang;
+}
+
 const KEEP_LABEL = {
-  pref: () => '都道府県を残す',
-  honorific: () => '敬称を残す',
-  head: (n) => `先頭${n}文字を残す`,
-  tail: (n) => `末尾${n}文字を残す`,
-  regex: () => '正規表現で残す',
+  pref: () => t('keepBadgePref'),
+  honorific: () => t('keepBadgeHonorific'),
+  head: (n) => t('keepBadgeHead', n),
+  tail: (n) => t('keepBadgeTail', n),
+  regex: () => t('keepBadgeRegex'),
 };
 function regexError(src) {
-  if (!src) return '正規表現を入力してください';
+  if (!src) return t('regexEmpty');
   try {
     new RegExp(src, 'u');
     return null;
   } catch {
-    return '正規表現が正しくありません';
+    return t('regexInvalid');
   }
 }
 function keepSpec(d) {
@@ -66,8 +82,8 @@ const S = {
 
 // 外部リンク（空文字なら非表示）。公開時に URL を入れる
 const LINKS = {
-  repo: '', // 例: https://github.com/<user>/on-air-mask
-  donate: '', // 例: Stripe の支払いリンク（https://buy.stripe.com/...）
+  repo: 'https://github.com/do-gugan/on-air-mask',
+  donate: 'https://donate.stripe.com/3cIbJ3cpt9i25yr6ka5Rm0s',
 };
 
 // 小さな DOM ヘルパー（ページ由来の文字列は必ず textContent で入れる）
@@ -182,7 +198,7 @@ chrome.windows.onFocusChanged.addListener(async () => {
 function setPicking(on) {
   S.picking = on;
   const b = $('pickBtn');
-  b.textContent = on ? '選択中…（ページをクリック／Esc で中止）' : '要素を選択';
+  b.textContent = on ? t('pickActive') : t('pickStart');
   b.classList.toggle('active', on);
 }
 async function startPick() {
@@ -290,18 +306,18 @@ function currentCand() {
 }
 
 function countBadge(n) {
-  if (n < 0) return h('span', { class: 'badge bad' }, '無効');
-  if (n === 0) return h('span', { class: 'badge zero' }, '0件');
-  if (n === 1) return h('span', { class: 'badge one' }, 'この1件');
-  return h('span', { class: 'badge many' }, `${n}件`);
+  if (n < 0) return h('span', { class: 'badge bad' }, t('countInvalid'));
+  if (n === 0) return h('span', { class: 'badge zero' }, t('countZero'));
+  if (n === 1) return h('span', { class: 'badge one' }, t('countOne'));
+  return h('span', { class: 'badge many' }, t('countMany', n));
 }
 function setCountBadge(el, n) {
   const b = countBadge(n);
   el.className = b.className;
   el.textContent = b.textContent;
 }
-const KIND_LABEL = { id: 'id', attr: '属性', class: 'class', context: '祖先+子孫', path: '構造パス' };
-const STAB_LABEL = { 3: '安定', 2: '普通', 0: '壊れやすい' };
+const KIND_LABEL = { id: 'id', attr: t('kindAttr'), class: 'class', context: t('kindContext'), path: t('kindPath') };
+const STAB_LABEL = { 3: t('stabilityHigh'), 2: t('stabilityMid'), 0: t('stabilityLow') };
 
 function setSeg(id, value) {
   for (const b of $(id).querySelectorAll('button[data-v]')) b.classList.toggle('on', b.dataset.v === value);
@@ -313,8 +329,8 @@ function renderEditor() {
   if (!S.open) return;
   const d = S.draft;
 
-  $('edTitle').textContent = S.editing ? 'マスクを編集' : '新しいマスク';
-  $('applyBtn').textContent = S.editing ? '更新' : '適用';
+  $('edTitle').textContent = S.editing ? t('editorEdit') : t('editorNew');
+  $('applyBtn').textContent = S.editing ? t('update') : t('apply');
   $('deleteBtn').hidden = !S.editing;
   if (document.activeElement !== $('name')) $('name').value = d.name;
   if (document.activeElement !== $('selector')) $('selector').value = d.selector;
@@ -329,9 +345,7 @@ function renderEditor() {
   $('keepPatternRow').hidden = d.keepType !== 'regex';
   if (document.activeElement !== $('keepPattern')) $('keepPattern').value = d.keepPattern;
   $('spreadRow').hidden = partial; // 文字単位でははみ出しは使わない
-  $('blurHint').textContent = partial
-    ? '文字単位のぼかしは、文字を透明にしてぼかした影だけを描く「ぼかし風」の表示です。'
-    : 'はみ出しを強さの2倍前後にすると、縁が自然に消えます。';
+  $('blurHint').textContent = partial ? t('blurHintText') : t('blurHint');
 
   // パラメータ
   setSeg('modeSeg', d.mode);
@@ -355,7 +369,7 @@ function renderEditor() {
       h(
         'button',
         { class: i === S.li ? 'on' : '', role: 'tab', onclick: () => selectLevel(i) },
-        i === 0 ? 'クリック要素' : `親 ${i}`,
+        i === 0 ? t('levelClicked') : t('levelParent', i),
         h('small', {}, `${lv.tag} ${lv.w}×${lv.h}`),
       ),
     ),
@@ -366,7 +380,7 @@ function renderEditor() {
   const cands = S.levels[S.li]?.candidates || [];
   if (!cands.length) {
     list.replaceChildren(
-      h('li', { class: 'none' }, 'この要素には使えるセレクタがありません。親を選ぶか、セレクタ欄に直接入力してください。'),
+      h('li', { class: 'none' }, t('noCandidates')),
     );
     return;
   }
@@ -453,10 +467,10 @@ function renderKeepStats(res) {
   if (d.target !== 'partial') return;
   const err = d.keepType === 'regex' ? regexError(d.keepPattern) : null;
   if (res && res.keepSupported === false) {
-    el.textContent = 'このブラウザでは文字単位のマスクが使えないため、要素全体をマスクします。';
+    el.textContent = t('keepUnsupported');
     el.classList.add('warn');
   } else if (err) {
-    el.textContent = `${err}（このままでは全体をマスクします）`;
+    el.textContent = t('regexWarn', err);
     el.classList.add('warn');
   } else if (!d.selector || !res?.keepStats) {
     el.textContent = '';
@@ -464,8 +478,8 @@ function renderKeepStats(res) {
     const { total, matched } = res.keepStats;
     const miss = total - matched;
     el.textContent = total
-      ? `${total}件中 ${matched}件で一致` + (miss ? `・${miss}件は判定できないため全体をマスク` : '')
-      : '文字を含む要素がありません';
+      ? t('keepMatched', [total, matched]) + (miss ? t('keepMissed', miss) : '')
+      : t('keepNoText');
     if (miss) el.classList.add('warn');
   }
 }
@@ -678,7 +692,7 @@ async function getRules() {
 
 function summary(r) {
   const keepBadge = r.keep?.type
-    ? h('span', { class: 'badge keep' }, (KEEP_LABEL[r.keep.type] || (() => '一部を残す'))(r.keep.n ?? 1))
+    ? h('span', { class: 'badge keep' }, (KEEP_LABEL[r.keep.type] || (() => t('targetPartial')))(r.keep.n ?? 1))
     : null;
   if (r.mode === 'fill') {
     return [
@@ -687,13 +701,13 @@ function summary(r) {
         'span',
         { class: 'badge' },
         h('span', { class: 'sw', style: `background:${isHex(r.fillColor) ? r.fillColor : GRAY}` }),
-        '塗りつぶし',
+        t('modeFill'),
       ),
     ];
   }
   const px = Number.isFinite(r.blurPx) ? r.blurPx : S.legacy.blurPx;
   const sp = Number.isFinite(r.spreadPx) ? r.spreadPx : S.legacy.spreadPx;
-  return [keepBadge, h('span', { class: 'badge' }, r.keep?.type ? `ぼかし ${px}px` : `ぼかし ${px}px・はみ出し ${sp}px`)];
+  return [keepBadge, h('span', { class: 'badge' }, r.keep?.type ? t('summaryBlur', px) : t('summaryBlurSpread', [px, sp]))];
 }
 
 function highlight(r) {
@@ -746,7 +760,7 @@ async function doRenderRules() {
           { class: 'top' },
           h(
             'label',
-            { class: 'switch mini', title: on ? 'クリックでこのマスクをオフ' : 'クリックでこのマスクをオン' },
+            { class: 'switch mini', title: on ? t('toggleOff') : t('toggleOn') },
             h('input', {
               type: 'checkbox',
               ...(on ? { checked: '' } : {}),
@@ -766,7 +780,7 @@ async function doRenderRules() {
             'button',
             {
               class: 'del',
-              title: '削除',
+              title: t('deleteTitle'),
               onclick: async () => {
                 highlight(null);
                 if (S.editing?.id === r.id) closeEditor(true);
@@ -780,10 +794,10 @@ async function doRenderRules() {
         h(
           'div',
           { class: 'meta' },
-          here ? countBadge(counts[i] ?? -1) : h('span', { class: 'badge', title: r.path || '' }, '別ページ'),
+          here ? countBadge(counts[i] ?? -1) : h('span', { class: 'badge', title: r.path || '' }, t('otherPage')),
           summary(r),
-          h('span', { class: 'badge' }, r.scope === 'path' ? 'このページのみ' : 'サイト全体'),
-          h('span', { class: 'badge' + (r.saved ? ' one' : '') }, r.saved ? '保存済み' : 'セッション'),
+          h('span', { class: 'badge' }, r.scope === 'path' ? t('scopePath') : t('scopeSite')),
+          h('span', { class: 'badge' + (r.saved ? ' one' : '') }, r.saved ? t('saved') : t('session')),
         ),
       );
     }),
@@ -792,7 +806,7 @@ async function doRenderRules() {
 $('rules').addEventListener('mouseleave', () => highlight(null));
 
 $('clearSite').addEventListener('click', async () => {
-  if (!confirm(`${S.origin} のマスクをすべて削除します。`)) return;
+  if (!confirm(t('clearConfirm', S.origin))) return;
   closeEditor(true);
   await mutate(true, () => []);
   await mutate(false, () => []);
@@ -815,7 +829,7 @@ function applySettings(v) {
   S.settings = { ...DEFAULT_SETTINGS, enabled: raw.enabled !== false };
   S.legacy = { blurPx: raw.blurPx ?? 12, spreadPx: raw.spreadPx ?? 16 };
   $('enabled').checked = S.settings.enabled;
-  $('enabledLbl').textContent = S.settings.enabled ? 'マスク有効' : '一時停止中';
+  $('enabledLbl').textContent = S.settings.enabled ? t('enabledOn') : t('enabledOff');
   updateDot();
 }
 function updateDot() {
@@ -830,7 +844,9 @@ $('enabled').addEventListener('change', async (e) => {
 // 起動
 // ===================================================================
 (async () => {
-  document.title = chrome.i18n.getMessage('extName') || document.title;
+  document.title = t('extName');
+  localize();
+  setPicking(false);
   for (const [id, url] of [['repoLink', LINKS.repo], ['donateLink', LINKS.donate]]) {
     if (/^https:\/\//.test(url)) {
       $(id).href = url;

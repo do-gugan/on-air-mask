@@ -4,16 +4,23 @@
   <meta charset="utf-8">
   <title>On-Air Mask</title>
   <link rel="stylesheet" href="panel.css">
+  <!--
+    表示する文言はすべて _locales/<言語>/messages.json にある。
+    data-i18n="キー"             … 要素の文字列を置き換える
+    data-i18n-title="キー"       … title 属性（ツールチップ）を置き換える
+    data-i18n-placeholder="キー" … placeholder 属性を置き換える
+    ここに書いてある日本語は、翻訳が読み込まれるまでの仮の表示。
+  -->
 </head>
 <body>
   <header>
     <div class="site"><span class="dot" id="dot"></span><span id="origin">—</span></div>
-    <label class="switch" title="全サイトのマスクを有効／一時停止">
+    <label class="switch" data-i18n-title="enabledTitle" title="全サイトのマスクを有効／一時停止">
       <input type="checkbox" id="enabled" checked><span class="track"></span><span class="lbl" id="enabledLbl">マスク有効</span>
     </label>
   </header>
 
-  <div id="unavailable" class="notice" hidden>
+  <div id="unavailable" class="notice" data-i18n="unavailable" hidden>
     このページでは使えません。通常のWebページを開いてください（拡張を入れる前から開いていたタブは再読み込みが必要です）。
   </div>
 
@@ -21,7 +28,7 @@
     <section class="start">
       <button id="pickBtn" class="primary big">要素を選択</button>
       <div class="sub">
-        <button id="manualBtn" class="link">セレクタを直接入力</button>
+        <button id="manualBtn" class="link" data-i18n="manualEntry">セレクタを直接入力</button>
       </div>
     </section>
 
@@ -29,22 +36,22 @@
     <section id="editor" hidden>
       <div class="ed-head">
         <h2 id="edTitle">新しいマスク</h2>
-        <button id="deleteBtn" class="link danger" hidden>このマスクを削除</button>
+        <button id="deleteBtn" class="link danger" data-i18n="deleteMask" hidden>このマスクを削除</button>
       </div>
 
       <label class="field">
-        <span class="k">名前</span>
-        <input id="name" placeholder="任意（例: ヘッダーのアカウント名）" autocomplete="off">
+        <span class="k" data-i18n="fieldName">名前</span>
+        <input id="name" data-i18n-placeholder="namePlaceholder" placeholder="任意（例: ヘッダーのアカウント名）" autocomplete="off">
       </label>
 
       <div class="block" id="candBlock">
-        <div class="k">範囲の候補 <span class="muted">↑↓ 候補 ・ ←→ 親/子</span></div>
+        <div class="k"><span data-i18n="candidates">範囲の候補</span> <span class="muted" data-i18n="candidatesKeys">↑↓ 候補 ・ ←→ 親/子</span></div>
         <div class="levels" id="levels" role="tablist"></div>
         <ol class="cands" id="cands" role="listbox"></ol>
       </div>
 
       <label class="field">
-        <span class="k">セレクタ</span>
+        <span class="k" data-i18n="fieldSelector">セレクタ</span>
         <span class="sel-row">
           <input id="selector" spellcheck="false" autocomplete="off" placeholder=".customer-email, [data-x]">
           <span id="selCount" class="badge"></span>
@@ -53,47 +60,47 @@
 
       <div class="params">
         <div class="row">
-          <span class="k">対象</span>
+          <span class="k" data-i18n="fieldTarget">対象</span>
           <div class="seg" id="targetSeg">
-            <button data-v="element" class="on">要素全体</button>
-            <button data-v="partial" title="要素の中の文字のうち、指定した部分だけを残してマスクする">一部を残す</button>
+            <button data-v="element" class="on" data-i18n="targetElement">要素全体</button>
+            <button data-v="partial" data-i18n="targetPartial" data-i18n-title="targetPartialTitle" title="要素の中の文字のうち、指定した部分だけを残してマスクする">一部を残す</button>
           </div>
         </div>
         <div id="keepParams" hidden>
           <div class="row">
-            <span class="k">残す</span>
+            <span class="k" data-i18n="fieldKeep">残す</span>
             <select id="keepType">
-              <option value="pref">都道府県（住所の先頭）</option>
-              <option value="honorific">敬称（末尾の 様・さん・殿・御中）</option>
-              <option value="head">先頭から N 文字</option>
-              <option value="tail">末尾から N 文字</option>
-              <option value="regex">正規表現に一致する部分</option>
+              <option value="pref" data-i18n="keepPref">都道府県（住所の先頭）</option>
+              <option value="honorific" data-i18n="keepHonorific">敬称（末尾の 様・さん・殿・御中）</option>
+              <option value="head" data-i18n="keepHead">先頭から N 文字</option>
+              <option value="tail" data-i18n="keepTail">末尾から N 文字</option>
+              <option value="regex" data-i18n="keepRegex">正規表現に一致する部分</option>
             </select>
-            <span id="keepNBox" class="nbox" hidden><input type="number" id="keepN" min="1" max="99" value="1"> 文字</span>
+            <span id="keepNBox" class="nbox" hidden><input type="number" id="keepN" min="1" max="99" value="1"> <span data-i18n="keepNUnit">文字</span></span>
           </div>
           <div class="row" id="keepPatternRow" hidden>
             <span class="k"></span>
-            <input id="keepPattern" spellcheck="false" autocomplete="off" placeholder="例: ^.+?[市区町村]">
+            <input id="keepPattern" spellcheck="false" autocomplete="off" data-i18n-placeholder="keepPatternPlaceholder" placeholder="例: ^.+?[市区町村]">
           </div>
           <p class="hint" id="keepStats"></p>
         </div>
 
         <div class="row">
-          <span class="k">方式</span>
+          <span class="k" data-i18n="fieldMode">方式</span>
           <div class="seg" id="modeSeg">
-            <button data-v="blur" class="on">ぼかし</button>
-            <button data-v="fill">塗りつぶし</button>
+            <button data-v="blur" class="on" data-i18n="modeBlur">ぼかし</button>
+            <button data-v="fill" data-i18n="modeFill">塗りつぶし</button>
           </div>
         </div>
 
         <div id="blurParams">
           <label class="range">
-            <span class="k">強さ</span>
+            <span class="k" data-i18n="fieldStrength">強さ</span>
             <input type="range" id="blurPx" min="2" max="40" step="1">
             <span class="val"><span id="blurVal"></span>px</span>
           </label>
-          <label class="range" id="spreadRow" title="要素の外側へぼかしをはみ出させる量。0 で要素の矩形ぴったり。レイアウトは変わりません">
-            <span class="k">はみ出し</span>
+          <label class="range" id="spreadRow" data-i18n-title="spreadTitle" title="要素の外側へぼかしをはみ出させる量。0 で要素の矩形ぴったり。レイアウトは変わりません">
+            <span class="k" data-i18n="fieldSpread">はみ出し</span>
             <input type="range" id="spreadPx" min="0" max="48" step="2">
             <span class="val"><span id="spreadVal"></span>px</span>
           </label>
@@ -101,44 +108,44 @@
         </div>
 
         <div class="row" id="fillParams" hidden>
-          <span class="k">色</span>
+          <span class="k" data-i18n="fieldColor">色</span>
           <div class="seg" id="fillSeg">
-            <button data-v="gray" class="on">グレー</button>
-            <button data-v="parent" title="選んだ要素の親（なければさらに上）の背景色">親の背景</button>
-            <button data-v="page" title="body / html の背景色">ページ背景</button>
-            <button data-v="custom">指定色</button>
+            <button data-v="gray" class="on" data-i18n="fillGray">グレー</button>
+            <button data-v="parent" data-i18n="fillParent" data-i18n-title="fillParentTitle" title="選んだ要素の親（なければさらに上）の背景色">親の背景</button>
+            <button data-v="page" data-i18n="fillPage" data-i18n-title="fillPageTitle" title="body / html の背景色">ページ背景</button>
+            <button data-v="custom" data-i18n="fillCustom">指定色</button>
           </div>
           <input type="color" id="customColor" value="#000000" hidden>
           <span class="sw big" id="fillSwatch" hidden></span>
         </div>
 
         <div class="row">
-          <span class="k">範囲</span>
+          <span class="k" data-i18n="fieldScope">範囲</span>
           <div class="seg" id="scopeSeg">
-            <button data-v="site" class="on">サイト全体</button>
-            <button data-v="path">このページのみ</button>
+            <button data-v="site" class="on" data-i18n="scopeSite">サイト全体</button>
+            <button data-v="path" data-i18n="scopePath">このページのみ</button>
           </div>
         </div>
-        <label class="row chk"><input type="checkbox" id="persist"> サイト設定として保存（ブラウザ再起動後も残す）</label>
+        <label class="row chk"><input type="checkbox" id="persist"> <span data-i18n="persist">サイト設定として保存（ブラウザ再起動後も残す）</span></label>
       </div>
 
       <div class="actions">
         <button id="applyBtn" class="primary">適用</button>
-        <button id="repickBtn" title="ページ上で要素をクリックし直して候補を作り直す">選び直す</button>
-        <button id="cancelBtn">やめる (Esc)</button>
+        <button id="repickBtn" data-i18n="repick" data-i18n-title="repickTitle" title="ページ上で要素をクリックし直して候補を作り直す">選び直す</button>
+        <button id="cancelBtn" data-i18n="cancel">やめる (Esc)</button>
       </div>
     </section>
 
     <section>
-      <h2>このサイトのマスク <span id="ruleCount" class="muted"></span><button id="clearSite" class="link">すべてクリア</button></h2>
+      <h2><span data-i18n="listTitle">このサイトのマスク</span> <span id="ruleCount" class="muted"></span><button id="clearSite" class="link" data-i18n="clearAll">すべてクリア</button></h2>
       <ul class="rules" id="rules"></ul>
-      <p class="empty muted" id="rulesEmpty">まだありません</p>
-      <p class="hint" id="rulesHint" hidden>ホバーでページ上の場所を表示、クリックで編集、スイッチで個別にオン／オフ</p>
+      <p class="empty muted" id="rulesEmpty" data-i18n="listEmpty">まだありません</p>
+      <p class="hint" id="rulesHint" data-i18n="listHint" hidden>ホバーでページ上の場所を表示、クリックで編集、スイッチで個別にオン／オフ</p>
     </section>
   </main>
   <footer id="footer">
     <a id="repoLink" target="_blank" rel="noopener" hidden>GitHub</a>
-    <a id="donateLink" target="_blank" rel="noopener" hidden>投げ銭で応援する</a>
+    <a id="donateLink" target="_blank" rel="noopener" data-i18n="footerDonate" hidden>投げ銭で応援する</a>
   </footer>
   <script src="panel.js"></script>
 </body>

@@ -1,8 +1,438 @@
 {
   "extName": {
-    "message": "On-Air Mask"
+    "message": "On-Air Mask",
+    "description": "Extension name (store, toolbar, extensions page)"
   },
   "extDesc": {
-    "message": "Hide private info while streaming or recording. Click any element to blur or fill it; the mask persists across scrolls and reloads."
+    "message": "Hide private info while streaming or recording. Click any element to blur or fill it; the mask persists across scrolls and reloads.",
+    "description": "Short description in the store and on the extensions page (max 132 characters)"
+  },
+  "enabledTitle": {
+    "message": "Turn masks on or pause them on all sites",
+    "description": "Tooltip of the global on/off switch in the panel header"
+  },
+  "enabledOn": {
+    "message": "Masking on",
+    "description": "Label next to the global switch when masks are active"
+  },
+  "enabledOff": {
+    "message": "Paused",
+    "description": "Label next to the global switch when masks are paused"
+  },
+  "unavailable": {
+    "message": "Not available on this page. Open a regular web page. Tabs that were open before installing the extension need to be reloaded.",
+    "description": "Notice shown when the panel cannot talk to the current tab"
+  },
+  "pickStart": {
+    "message": "Select element",
+    "description": "Main button that starts picking an element on the page"
+  },
+  "pickActive": {
+    "message": "Selecting… (click the page, Esc to cancel)",
+    "description": "Main button text while picking is active"
+  },
+  "manualEntry": {
+    "message": "Enter a selector manually",
+    "description": "Link under the main button to create a mask from a CSS selector"
+  },
+  "editorNew": {
+    "message": "New mask",
+    "description": "Editor heading when creating a mask"
+  },
+  "editorEdit": {
+    "message": "Edit mask",
+    "description": "Editor heading when editing an existing mask"
+  },
+  "deleteMask": {
+    "message": "Delete this mask",
+    "description": "Link in the editor heading to delete the mask being edited"
+  },
+  "fieldName": {
+    "message": "Name",
+    "description": "Editor field label: mask name"
+  },
+  "namePlaceholder": {
+    "message": "Optional (e.g. account name in header)",
+    "description": "Placeholder of the name field"
+  },
+  "candidates": {
+    "message": "Candidates",
+    "description": "Editor section label: list of candidate selectors"
+  },
+  "candidatesKeys": {
+    "message": "↑↓ candidate · ←→ parent/child",
+    "description": "Keyboard hint next to the candidates label"
+  },
+  "levelClicked": {
+    "message": "Clicked",
+    "description": "Tab for the clicked element in the candidates section"
+  },
+  "levelParent": {
+    "message": "Parent $N$",
+    "description": "Tab for the N-th ancestor in the candidates section",
+    "placeholders": {
+      "n": {
+        "content": "$1",
+        "example": "2"
+      }
+    }
+  },
+  "noCandidates": {
+    "message": "No usable selector for this element. Choose a parent or type a selector below.",
+    "description": "Shown when the selected level has no candidates"
+  },
+  "fieldSelector": {
+    "message": "Selector",
+    "description": "Editor field label: CSS selector"
+  },
+  "fieldTarget": {
+    "message": "Target",
+    "description": "Editor field label: whole element or keep part of the text"
+  },
+  "targetElement": {
+    "message": "Whole element",
+    "description": "Target option: mask the whole element"
+  },
+  "targetPartial": {
+    "message": "Keep part",
+    "description": "Target option: mask the text except a part"
+  },
+  "targetPartialTitle": {
+    "message": "Mask the element's text except the part you specify",
+    "description": "Tooltip of the 'Keep part' option"
+  },
+  "fieldKeep": {
+    "message": "Keep",
+    "description": "Editor field label: which part of the text to keep visible"
+  },
+  "keepPref": {
+    "message": "Japanese prefecture (start of address)",
+    "description": "Keep option: prefecture at the start of a Japanese address"
+  },
+  "keepHonorific": {
+    "message": "Japanese honorific (様, さん, 殿, 御中 at the end)",
+    "description": "Keep option: Japanese honorific suffix after a name"
+  },
+  "keepHead": {
+    "message": "First N characters",
+    "description": "Keep option: first N characters"
+  },
+  "keepTail": {
+    "message": "Last N characters",
+    "description": "Keep option: last N characters"
+  },
+  "keepRegex": {
+    "message": "Part matching a regular expression",
+    "description": "Keep option: first match of a regular expression"
+  },
+  "keepNUnit": {
+    "message": "chars",
+    "description": "Unit after the number input for first/last N characters"
+  },
+  "keepPatternPlaceholder": {
+    "message": "e.g. ^\\S+",
+    "description": "Placeholder of the regular expression input"
+  },
+  "keepUnsupported": {
+    "message": "This browser can't mask part of the text, so the whole element will be masked.",
+    "description": "Shown when the CSS Custom Highlight API is unavailable"
+  },
+  "regexEmpty": {
+    "message": "Enter a regular expression",
+    "description": "Validation message for an empty regular expression"
+  },
+  "regexInvalid": {
+    "message": "Invalid regular expression",
+    "description": "Validation message for an invalid regular expression"
+  },
+  "regexWarn": {
+    "message": "$ERR$ (as is, the whole text will be masked)",
+    "description": "Regex validation message followed by a warning",
+    "placeholders": {
+      "err": {
+        "content": "$1",
+        "example": "Invalid regular expression"
+      }
+    }
+  },
+  "keepMatched": {
+    "message": "$MATCHED$ of $TOTAL$ matched",
+    "description": "How many elements matched the keep rule",
+    "placeholders": {
+      "total": {
+        "content": "$1",
+        "example": "6"
+      },
+      "matched": {
+        "content": "$2",
+        "example": "5"
+      }
+    }
+  },
+  "keepMissed": {
+    "message": " · $MISS$ not matched, fully masked",
+    "description": "Appended to keepMatched when some elements did not match",
+    "placeholders": {
+      "miss": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "keepNoText": {
+    "message": "No matching element contains text",
+    "description": "Shown when no matched element contains text"
+  },
+  "fieldMode": {
+    "message": "Style",
+    "description": "Editor field label: blur or fill"
+  },
+  "modeBlur": {
+    "message": "Blur",
+    "description": "Style option: blur"
+  },
+  "modeFill": {
+    "message": "Fill",
+    "description": "Style option: solid fill"
+  },
+  "fieldStrength": {
+    "message": "Strength",
+    "description": "Editor field label: blur radius slider"
+  },
+  "fieldSpread": {
+    "message": "Spread",
+    "description": "Editor field label: how far the blur extends outside the element"
+  },
+  "spreadTitle": {
+    "message": "How far the blur extends beyond the element. 0 means exactly the element's box. The layout is not affected.",
+    "description": "Tooltip of the spread slider"
+  },
+  "blurHint": {
+    "message": "Setting spread to about twice the strength makes the edges fade out naturally.",
+    "description": "Hint under the blur sliders"
+  },
+  "blurHintText": {
+    "message": "For partial masks, blur is simulated by making the text transparent and drawing only a blurred shadow.",
+    "description": "Hint under the blur slider when 'Keep part' is selected"
+  },
+  "fieldColor": {
+    "message": "Color",
+    "description": "Editor field label: fill color"
+  },
+  "fillGray": {
+    "message": "Gray",
+    "description": "Fill color option: gray"
+  },
+  "fillParent": {
+    "message": "Parent bg",
+    "description": "Fill color option: background color of the parent element"
+  },
+  "fillParentTitle": {
+    "message": "Background color of the element's parent (or the nearest ancestor that has one)",
+    "description": "Tooltip of the 'Parent bg' option"
+  },
+  "fillPage": {
+    "message": "Page bg",
+    "description": "Fill color option: background color of the page"
+  },
+  "fillPageTitle": {
+    "message": "Background color of body / html",
+    "description": "Tooltip of the 'Page bg' option"
+  },
+  "fillCustom": {
+    "message": "Custom",
+    "description": "Fill color option: color picker"
+  },
+  "fieldScope": {
+    "message": "Scope",
+    "description": "Editor field label: whole site or this page only"
+  },
+  "scopeSite": {
+    "message": "Whole site",
+    "description": "Scope option and list badge: whole site"
+  },
+  "scopePath": {
+    "message": "This page only",
+    "description": "Scope option and list badge: this page only"
+  },
+  "persist": {
+    "message": "Save for this site (keep after restarting the browser)",
+    "description": "Checkbox: store the mask permanently"
+  },
+  "apply": {
+    "message": "Apply",
+    "description": "Editor button: create the mask"
+  },
+  "update": {
+    "message": "Update",
+    "description": "Editor button: save changes to an existing mask"
+  },
+  "repick": {
+    "message": "Re-select",
+    "description": "Editor button: pick the element again"
+  },
+  "repickTitle": {
+    "message": "Click an element on the page again to rebuild the candidates",
+    "description": "Tooltip of the Re-select button"
+  },
+  "cancel": {
+    "message": "Cancel (Esc)",
+    "description": "Editor button: discard changes"
+  },
+  "countInvalid": {
+    "message": "Invalid",
+    "description": "Badge: the selector is invalid"
+  },
+  "countZero": {
+    "message": "0 matches",
+    "description": "Badge: the selector matches nothing"
+  },
+  "countOne": {
+    "message": "Only this one",
+    "description": "Badge: the selector matches exactly one element"
+  },
+  "countMany": {
+    "message": "$N$ matches",
+    "description": "Badge: the selector matches N elements",
+    "placeholders": {
+      "n": {
+        "content": "$1",
+        "example": "12"
+      }
+    }
+  },
+  "kindAttr": {
+    "message": "attribute",
+    "description": "Candidate kind badge: attribute selector"
+  },
+  "kindContext": {
+    "message": "ancestor + descendant",
+    "description": "Candidate kind badge: ancestor + descendant selector"
+  },
+  "kindPath": {
+    "message": "structural path",
+    "description": "Candidate kind badge: nth-of-type path"
+  },
+  "stabilityHigh": {
+    "message": "Stable",
+    "description": "Candidate stability badge: robust against page changes"
+  },
+  "stabilityMid": {
+    "message": "Normal",
+    "description": "Candidate stability badge: average"
+  },
+  "stabilityLow": {
+    "message": "Fragile",
+    "description": "Candidate stability badge: likely to break"
+  },
+  "listTitle": {
+    "message": "Masks on this site",
+    "description": "Heading of the mask list"
+  },
+  "clearAll": {
+    "message": "Clear all",
+    "description": "Link to delete all masks on this site"
+  },
+  "clearConfirm": {
+    "message": "Delete all masks for $ORIGIN$?",
+    "description": "Confirmation dialog for 'Clear all'",
+    "placeholders": {
+      "origin": {
+        "content": "$1",
+        "example": "https://example.com"
+      }
+    }
+  },
+  "listEmpty": {
+    "message": "None yet",
+    "description": "Shown when the site has no masks"
+  },
+  "listHint": {
+    "message": "Hover to locate on the page, click to edit, use the switch to turn a mask on or off",
+    "description": "Hint under the mask list"
+  },
+  "toggleOff": {
+    "message": "Click to turn this mask off",
+    "description": "Tooltip of a mask's switch when it is on"
+  },
+  "toggleOn": {
+    "message": "Click to turn this mask on",
+    "description": "Tooltip of a mask's switch when it is off"
+  },
+  "deleteTitle": {
+    "message": "Delete",
+    "description": "Tooltip of the × button in the list"
+  },
+  "otherPage": {
+    "message": "Other page",
+    "description": "Badge: the mask applies to another page of the site"
+  },
+  "saved": {
+    "message": "Saved",
+    "description": "Badge: the mask is stored permanently"
+  },
+  "session": {
+    "message": "Session",
+    "description": "Badge: the mask lasts until the browser is closed"
+  },
+  "summaryBlur": {
+    "message": "Blur $PX$px",
+    "description": "Badge summarizing a blur mask (partial)",
+    "placeholders": {
+      "px": {
+        "content": "$1",
+        "example": "12"
+      }
+    }
+  },
+  "summaryBlurSpread": {
+    "message": "Blur $PX$px · spread $SPREAD$px",
+    "description": "Badge summarizing a blur mask",
+    "placeholders": {
+      "px": {
+        "content": "$1",
+        "example": "12"
+      },
+      "spread": {
+        "content": "$2",
+        "example": "16"
+      }
+    }
+  },
+  "keepBadgePref": {
+    "message": "Keep prefecture",
+    "description": "Badge: keeps the prefecture"
+  },
+  "keepBadgeHonorific": {
+    "message": "Keep honorific",
+    "description": "Badge: keeps the honorific"
+  },
+  "keepBadgeHead": {
+    "message": "Keep first $N$",
+    "description": "Badge: keeps the first N characters",
+    "placeholders": {
+      "n": {
+        "content": "$1",
+        "example": "2"
+      }
+    }
+  },
+  "keepBadgeTail": {
+    "message": "Keep last $N$",
+    "description": "Badge: keeps the last N characters",
+    "placeholders": {
+      "n": {
+        "content": "$1",
+        "example": "4"
+      }
+    }
+  },
+  "keepBadgeRegex": {
+    "message": "Keep regex match",
+    "description": "Badge: keeps the regex match"
+  },
+  "footerDonate": {
+    "message": "Leave a tip",
+    "description": "Footer link to the tip page"
   }
 }
