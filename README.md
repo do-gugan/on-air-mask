@@ -79,9 +79,12 @@ Windows、macOS、Linux のいずれでも動作します。
 
 画面の表示言語は日本語と英語に対応しています。ブラウザの表示言語に合わせて自動で切り替わり、それ以外の言語では英語で表示されます。
 
-## インストール（手動）
+## インストール
+Edgeをお使いの方はMicrosoft公式アドオンストアからインストールできます。  
+[https://microsoftedge.microsoft.com/addons/detail/配信マスク/jnaacohpfbjjamammmobaolckbijcpii](https://microsoftedge.microsoft.com/addons/detail/%E9%85%8D%E4%BF%A1%E3%83%9E%E3%82%B9%E3%82%AF/jnaacohpfbjjamammmobaolckbijcpii)
 
-現在、Chrome / Edge ウェブストアへの掲載準備中です。現時点では次の手順で手動インストールしてください。
+Chromeウェブストアへは掲載準備（審査）中です。
+リポジトリのReleasesからzipファイルをダウンロードして以下の手順で手動インストールしてください。
 
 1. [Releases](../../releases) から最新の `on-air-mask-<バージョン>.zip` をダウンロードして展開します。`on-air-mask-<バージョン>` というフォルダができます（`git clone` でも構いません）。
    - 展開したフォルダは、インストール後も削除・移動しないでください。ブラウザはこのフォルダから拡張機能を読み込み続けます。
