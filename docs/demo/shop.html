@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>マイページ - デモマーケット（架空のサイト）</title>
+<!--
+  配信マスクのスクリーンショット撮影・動作確認用のデモページ。
+  ブランド名・人物・住所・連絡先はすべて架空のもの。
+  1280×800 のスクリーンショットでサイドパネル（約360px）を開いた状態でも読めるよう、
+  ページ幅 約900px を想定して文字を大きめにしている。
+  セレクタ候補がいろいろ出るよう、data-testid / 意味のあるクラス / 自動生成 id /
+  CSS-in-JS 風ハッシュクラス / ユーティリティクラスを意図的に混在させている。
+-->
+<style>
+  :root {
+    --brand: #1f6f5c;
+    --brand-dark: #154f42;
+    --accent: #f2b33d;
+    --line: #e3e6e4;
+    --muted: #66707a;
+    --bg: #f3f5f4;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: #1f2328; font: 15px/1.6 system-ui, -apple-system, "Hiragino Sans", "Yu Gothic UI", "Noto Sans JP", sans-serif; }
+  a { color: inherit; text-decoration: none; }
+
+  /* ユーティリティ（Tailwind 風）— 配信マスクは候補から除外する */
+  .flex { display: flex; } .items-center { align-items: center; } .gap-2 { gap: 8px; } .gap-3 { gap: 12px; }
+  .text-sm { font-size: 13px; } .text-muted { color: var(--muted); } .font-bold { font-weight: 700; } .ml-auto { margin-left: auto; }
+
+  /* ヘッダー */
+  .site-header { background: var(--brand); color: #fff; }
+  .site-header__inner { display: flex; align-items: center; gap: 20px; padding: 12px 24px; }
+  .logo { font-size: 22px; font-weight: 800; letter-spacing: .04em; white-space: nowrap; }
+  .logo small { display: block; font-size: 10px; font-weight: 600; letter-spacing: .2em; opacity: .8; margin-top: -4px; }
+  .search { flex: 1; display: flex; min-width: 0; }
+  .search input { flex: 1; min-width: 0; border: 0; border-radius: 6px 0 0 6px; padding: 9px 12px; font: inherit; }
+  .search button { border: 0; border-radius: 0 6px 6px 0; background: var(--accent); padding: 0 16px; font: inherit; font-weight: 700; cursor: pointer; }
+  .nav-account { line-height: 1.3; white-space: nowrap; }
+  .nav-account__hello { font-size: 12px; opacity: .85; }
+  .nav-account__name { font-weight: 700; font-size: 15px; }
+  .nav-cart { font-weight: 700; white-space: nowrap; }
+
+  /* お届け先バー */
+  .sc-deliver-bar { background: var(--brand-dark); color: #e6f2ee; padding: 6px 24px; font-size: 13px; }
+  .deliver-to__name { font-weight: 700; color: #fff; }
+
+  /* 本体 */
+  main { max-width: 940px; margin: 20px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 300px; gap: 20px; }
+  h1 { font-size: 20px; margin: 0 0 12px; }
+  h2 { font-size: 16px; margin: 0 0 10px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; }
+
+  /* 注文カード */
+  .order-card { padding: 0; overflow: hidden; }
+  .order-card + .order-card { margin-top: 12px; }
+  .order-card__head { display: flex; flex-wrap: wrap; gap: 4px 18px; padding: 10px 18px; background: #f7f8f7; border-bottom: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+  .order-card__head b { display: block; color: #1f2328; font-size: 14px; }
+  .order-card__body { display: flex; align-items: center; gap: 14px; padding: 12px 18px; }
+  .thumb { width: 52px; height: 52px; border-radius: 8px; flex: none; }
+  .order-card__item { font-weight: 600; }
+  .order-card__status { font-size: 13px; color: var(--brand); font-weight: 700; }
+  .order-card__recipient-name { font-weight: 700; }
+
+  /* アカウント情報 */
+  .account-card dl { margin: 0; display: grid; grid-template-columns: 64px 1fr; gap: 8px 10px; }
+  .account-card dt { color: var(--muted); font-size: 13px; }
+  .account-card dd { margin: 0; word-break: break-all; }
+  .account-card__name { font-size: 17px; font-weight: 700; }
+  .payment-card { margin-top: 14px; }
+  .payment-card__number { font-family: ui-monospace, Menlo, monospace; letter-spacing: .05em; }
+  .note { max-width: 940px; margin: 0 auto 24px; padding: 0 20px; font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="logo" href="#">デモマーケット<small>DEMO MARKET</small></a>
+    <form class="search" onsubmit="return false">
+      <input type="search" placeholder="キーワードで検索" aria-label="検索">
+      <button type="submit">検索</button>
+    </form>
+    <a class="nav-account" href="#" id=":r1:">
+      <div class="nav-account__hello">こんにちは</div>
+      <div class="nav-account__name" data-testid="header-account-name">見本 太郎 さん</div>
+    </a>
+    <a class="nav-cart" href="#">カート (2)</a>
+  </div>
+  <div class="sc-deliver-bar sc-1x8kq2a">
+    お届け先: <span class="deliver-to__name css-9fk2la" data-testid="deliver-to">見本 太郎 様 〒100-0000 東京都千代田区見本町0-0-0</span>
+  </div>
+</header>
+
+<main>
+  <section class="order-history" id="order-history">
+    <h1>注文履歴</h1>
+
+    <article class="card order-card" data-order-id="DM-24-1031">
+      <div class="order-card__head">
+        <div>注文日<b>2026年10月10日</b></div>
+        <div>合計<b>¥3,280</b></div>
+        <div class="order-card__recipient">お届け先<b><span class="order-card__recipient-name">見本 太郎 様</span></b></div>
+        <div class="ml-auto">注文番号<b>DM-24-1031</b></div>
+      </div>
+      <div class="order-card__body">
+        <div class="thumb" style="background:#cfe3dc"></div>
+        <div>
+          <div class="order-card__item">ステンレス マグカップ 350ml</div>
+          <div class="order-card__address text-sm text-muted">〒100-0000 東京都千代田区見本町0-0-0 見本ハイツ101</div>
+        </div>
+        <div class="order-card__status ml-auto">配達済み</div>
+      </div>
+    </article>
+
+    <article class="card order-card" data-order-id="DM-24-0977">
+      <div class="order-card__head">
+        <div>注文日<b>2026年9月28日</b></div>
+        <div>合計<b>¥1,540</b></div>
+        <div class="order-card__recipient">お届け先<b><span class="order-card__recipient-name">見本 花子 様</span></b></div>
+        <div class="ml-auto">注文番号<b>DM-24-0977</b></div>
+      </div>
+      <div class="order-card__body">
+        <div class="thumb" style="background:#f2dfc0"></div>
+        <div>
+          <div class="order-card__item">文庫本ブックカバー（帆布）</div>
+          <div class="order-card__address text-sm text-muted">〒530-0000 大阪府大阪市北区見本町0-0-0</div>
+        </div>
+        <div class="order-card__status ml-auto">配達済み</div>
+      </div>
+    </article>
+
+    <article class="card order-card" data-order-id="DM-24-0912">
+      <div class="order-card__head">
+        <div>注文日<b>2026年9月14日</b></div>
+        <div>合計<b>¥5,900</b></div>
+        <div class="order-card__recipient">お届け先<b><span class="order-card__recipient-name">見本商事株式会社 御中</span></b></div>
+        <div class="ml-auto">注文番号<b>DM-24-0912</b></div>
+      </div>
+      <div class="order-card__body">
+        <div class="thumb" style="background:#d9d4ee"></div>
+        <div>
+          <div class="order-card__item">USB-C ハブ 7ポート</div>
+          <div class="order-card__address text-sm text-muted">〒060-0000 北海道札幌市中央区見本通0-0</div>
+        </div>
+        <div class="order-card__status ml-auto">配達済み</div>
+      </div>
+    </article>
+  </section>
+
+  <aside>
+    <section class="card account-card" id="account-panel">
+      <h2>アカウント情報</h2>
+      <dl>
+        <dt>氏名</dt><dd class="account-card__name" data-testid="profile-name">見本 太郎</dd>
+        <dt>メール</dt><dd class="account-card__email">taro.mihon@example.com</dd>
+        <dt>電話</dt><dd class="account-card__tel">090-0000-0000</dd>
+        <dt>住所</dt><dd class="account-card__address">〒100-0000 東京都千代田区見本町0-0-0 見本ハイツ101</dd>
+      </dl>
+    </section>
+    <section class="card payment-card">
+      <h2>お支払い方法</h2>
+      <div class="flex items-center gap-2">
+        <span class="font-bold">クレジットカード</span>
+        <span class="payment-card__number ml-auto">**** 0000</span>
+      </div>
+      <div class="text-sm text-muted">有効期限 00/00</div>
+    </section>
+  </aside>
+</main>
+<p class="note">このページは配信マスクの動作確認・スクリーンショット撮影用の架空のサイトです。登場する会社名・人物・住所・連絡先はすべて架空のものです。</p>
+</body>
+</html>

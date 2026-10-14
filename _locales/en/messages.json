@@ -23,6 +23,10 @@
     "message": "Not available on this page. Open a regular web page. Tabs that were open before installing the extension need to be reloaded.",
     "description": "Notice shown when the panel cannot talk to the current tab"
   },
+  "originLocalFile": {
+    "message": "Local file (file://)",
+    "description": "Shown in the panel header instead of the origin when the page is a local file (file://)"
+  },
   "pickStart": {
     "message": "Select element",
     "description": "Main button that starts picking an element on the page"

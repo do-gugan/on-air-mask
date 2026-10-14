@@ -23,6 +23,10 @@
     "message": "このページでは使えません。通常のWebページを開いてください（拡張を入れる前から開いていたタブは再読み込みが必要です）。",
     "description": "Notice shown when the panel cannot talk to the current tab"
   },
+  "originLocalFile": {
+    "message": "ローカルファイル（file://）",
+    "description": "Shown in the panel header instead of the origin when the page is a local file (file://)"
+  },
   "pickStart": {
     "message": "要素を選択",
     "description": "Main button that starts picking an element on the page"

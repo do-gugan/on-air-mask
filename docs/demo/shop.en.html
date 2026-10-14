@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Account - Demo Market (fictional site)</title>
+<!--
+  English version of shop.html, for On-Air Mask screenshots and testing.
+  All brand names, people, addresses and contact details are fictional.
+  The structure, class names and data-testid values are identical to shop.html,
+  so masks created on one page also apply to the other (when opened from the same origin).
+-->
+<style>
+  :root {
+    --brand: #1f6f5c;
+    --brand-dark: #154f42;
+    --accent: #f2b33d;
+    --line: #e3e6e4;
+    --muted: #66707a;
+    --bg: #f3f5f4;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: #1f2328; font: 15px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+  a { color: inherit; text-decoration: none; }
+
+  /* Utility classes (Tailwind-like) — On-Air Mask skips these as candidates */
+  .flex { display: flex; } .items-center { align-items: center; } .gap-2 { gap: 8px; } .gap-3 { gap: 12px; }
+  .text-sm { font-size: 13px; } .text-muted { color: var(--muted); } .font-bold { font-weight: 700; } .ml-auto { margin-left: auto; }
+
+  /* Header */
+  .site-header { background: var(--brand); color: #fff; }
+  .site-header__inner { display: flex; align-items: center; gap: 20px; padding: 12px 24px; }
+  .logo { font-size: 22px; font-weight: 800; letter-spacing: .04em; white-space: nowrap; }
+  .logo small { display: block; font-size: 10px; font-weight: 600; letter-spacing: .2em; opacity: .8; margin-top: -4px; }
+  .search { flex: 1; display: flex; min-width: 0; }
+  .search input { flex: 1; min-width: 0; border: 0; border-radius: 6px 0 0 6px; padding: 9px 12px; font: inherit; }
+  .search button { border: 0; border-radius: 0 6px 6px 0; background: var(--accent); padding: 0 16px; font: inherit; font-weight: 700; cursor: pointer; }
+  .nav-account { line-height: 1.3; white-space: nowrap; }
+  .nav-account__hello { font-size: 12px; opacity: .85; }
+  .nav-account__name { font-weight: 700; font-size: 15px; }
+  .nav-cart { font-weight: 700; white-space: nowrap; }
+
+  /* Deliver-to bar */
+  .sc-deliver-bar { background: var(--brand-dark); color: #e6f2ee; padding: 6px 24px; font-size: 13px; }
+  .deliver-to__name { font-weight: 700; color: #fff; }
+
+  /* Main */
+  main { max-width: 940px; margin: 20px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 300px; gap: 20px; }
+  h1 { font-size: 20px; margin: 0 0 12px; }
+  h2 { font-size: 16px; margin: 0 0 10px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; }
+
+  /* Order cards */
+  .order-card { padding: 0; overflow: hidden; }
+  .order-card + .order-card { margin-top: 12px; }
+  .order-card__head { display: flex; flex-wrap: wrap; gap: 4px 18px; padding: 10px 18px; background: #f7f8f7; border-bottom: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+  .order-card__head b { display: block; color: #1f2328; font-size: 14px; }
+  .order-card__body { display: flex; align-items: center; gap: 14px; padding: 12px 18px; }
+  .thumb { width: 52px; height: 52px; border-radius: 8px; flex: none; }
+  .order-card__item { font-weight: 600; }
+  .order-card__status { font-size: 13px; color: var(--brand); font-weight: 700; }
+  .order-card__recipient-name { font-weight: 700; }
+
+  /* Account */
+  .account-card dl { margin: 0; display: grid; grid-template-columns: 64px 1fr; gap: 8px 10px; }
+  .account-card dt { color: var(--muted); font-size: 13px; }
+  .account-card dd { margin: 0; word-break: break-word; }
+  .account-card__name { font-size: 17px; font-weight: 700; }
+  .payment-card { margin-top: 14px; }
+  .payment-card__number { font-family: ui-monospace, Menlo, monospace; letter-spacing: .05em; }
+  .note { max-width: 940px; margin: 0 auto 24px; padding: 0 20px; font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="logo" href="#">Demo Market<small>FICTIONAL STORE</small></a>
+    <form class="search" onsubmit="return false">
+      <input type="search" placeholder="Search products" aria-label="Search">
+      <button type="submit">Search</button>
+    </form>
+    <a class="nav-account" href="#" id=":r1:">
+      <div class="nav-account__hello">Hello,</div>
+      <div class="nav-account__name" data-testid="header-account-name">Alex Sample</div>
+    </a>
+    <a class="nav-cart" href="#">Cart (2)</a>
+  </div>
+  <div class="sc-deliver-bar sc-1x8kq2a">
+    Deliver to: <span class="deliver-to__name css-9fk2la" data-testid="deliver-to">Alex Sample, 100 Sample Street, Exampleville, ZZ 00000</span>
+  </div>
+</header>
+
+<main>
+  <section class="order-history" id="order-history">
+    <h1>Your Orders</h1>
+
+    <article class="card order-card" data-order-id="DM-24-1031">
+      <div class="order-card__head">
+        <div>Order placed<b>Oct 10, 2026</b></div>
+        <div>Total<b>$32.80</b></div>
+        <div class="order-card__recipient">Ship to<b><span class="order-card__recipient-name">Alex Sample</span></b></div>
+        <div class="ml-auto">Order #<b>DM-24-1031</b></div>
+      </div>
+      <div class="order-card__body">
+        <div class="thumb" style="background:#cfe3dc"></div>
+        <div>
+          <div class="order-card__item">Stainless Steel Mug, 12 oz</div>
+          <div class="order-card__address text-sm text-muted">100 Sample Street, Apt 101, Exampleville, ZZ 00000</div>
+        </div>
+        <div class="order-card__status ml-auto">Delivered</div>
+      </div>
+    </article>
+
+    <article class="card order-card" data-order-id="DM-24-0977">
+      <div class="order-card__head">
+        <div>Order placed<b>Sep 28, 2026</b></div>
+        <div>Total<b>$15.40</b></div>
+        <div class="order-card__recipient">Ship to<b><span class="order-card__recipient-name">Jamie Sample</span></b></div>
+        <div class="ml-auto">Order #<b>DM-24-0977</b></div>
+      </div>
+      <div class="order-card__body">
+        <div class="thumb" style="background:#f2dfc0"></div>
+        <div>
+          <div class="order-card__item">Canvas Book Cover</div>
+          <div class="order-card__address text-sm text-muted">200 Example Avenue, Sampletown, ZZ 00000</div>
+        </div>
+        <div class="order-card__status ml-auto">Delivered</div>
+      </div>
+    </article>
+
+    <article class="card order-card" data-order-id="DM-24-0912">
+      <div class="order-card__head">
+        <div>Order placed<b>Sep 14, 2026</b></div>
+        <div>Total<b>$59.00</b></div>
+        <div class="order-card__recipient">Ship to<b><span class="order-card__recipient-name">Sample Trading Co.</span></b></div>
+        <div class="ml-auto">Order #<b>DM-24-0912</b></div>
+      </div>
+      <div class="order-card__body">
+        <div class="thumb" style="background:#d9d4ee"></div>
+        <div>
+          <div class="order-card__item">USB-C Hub, 7 Ports</div>
+          <div class="order-card__address text-sm text-muted">300 Placeholder Road, Demo City, ZZ 00000</div>
+        </div>
+        <div class="order-card__status ml-auto">Delivered</div>
+      </div>
+    </article>
+  </section>
+
+  <aside>
+    <section class="card account-card" id="account-panel">
+      <h2>Account details</h2>
+      <dl>
+        <dt>Name</dt><dd class="account-card__name" data-testid="profile-name">Alex Sample</dd>
+        <dt>Email</dt><dd class="account-card__email">alex.sample@example.com</dd>
+        <dt>Phone</dt><dd class="account-card__tel">555-0100-0000</dd>
+        <dt>Address</dt><dd class="account-card__address">100 Sample Street, Apt 101, Exampleville, ZZ 00000</dd>
+      </dl>
+    </section>
+    <section class="card payment-card">
+      <h2>Payment method</h2>
+      <div class="flex items-center gap-2">
+        <span class="font-bold">Credit card</span>
+        <span class="payment-card__number ml-auto">**** 0000</span>
+      </div>
+      <div class="text-sm text-muted">Expires 00/00</div>
+    </section>
+  </aside>
+</main>
+<p class="note">This is a fictional site for testing On-Air Mask and taking screenshots. All company names, people, addresses and contact details are fictional.</p>
+</body>
+</html>

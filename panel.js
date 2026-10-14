@@ -30,6 +30,10 @@ function t(key, subs) {
   const s = chrome.i18n.getMessage(key, subs === undefined ? undefined : [].concat(subs).map(String));
   return s || key;
 }
+// file:// のページはオリジンが "null" になるので、表示だけ分かりやすくする（保存のキーは変えない）
+function originLabel(origin) {
+  return origin === 'null' ? t('originLocalFile') : origin;
+}
 function localize(root = document) {
   for (const el of root.querySelectorAll('[data-i18n]')) el.textContent = t(el.dataset.i18n);
   for (const el of root.querySelectorAll('[data-i18n-title]')) el.title = t(el.dataset.i18nTitle);
@@ -145,7 +149,7 @@ async function refresh() {
   $('main').hidden = false;
   S.origin = info.origin;
   S.path = info.path;
-  $('origin').textContent = info.origin;
+  $('origin').textContent = originLabel(info.origin);
   setPicking(!!info.picking);
 
   S.port = chrome.tabs.connect(S.tabId, { frameId: 0, name: 'sbm-panel' });
@@ -391,7 +395,6 @@ function renderEditor() {
         {
           class: i === S.ci ? 'on' : '',
           role: 'option',
-          onmouseenter: () => i !== S.ci && selectCand(i),
           onclick: () => selectCand(i),
           ondblclick: () => apply(),
         },
@@ -806,7 +809,7 @@ async function doRenderRules() {
 $('rules').addEventListener('mouseleave', () => highlight(null));
 
 $('clearSite').addEventListener('click', async () => {
-  if (!confirm(t('clearConfirm', S.origin))) return;
+  if (!confirm(t('clearConfirm', originLabel(S.origin)))) return;
   closeEditor(true);
   await mutate(true, () => []);
   await mutate(false, () => []);
